@@ -1,13 +1,8 @@
-// src/app/page.tsx
 import { contentfulClient } from '@/lib/contentful';
 
-// Fonction pour récupérer les entrées depuis Contentful
 async function getContentfulEntries() {
   try {
-    const response = await contentfulClient.getEntries({
-      // Optionnel : filtrez par type de contenu si vous avez défini un ID (ex: 'post' ou 'article')
-      // content_type: 'post',
-    });
+    const response = await contentfulClient.getEntries();
     return response.items;
   } catch (error) {
     console.error('Erreur lors de la récupération des données Contentful:', error);
@@ -20,10 +15,10 @@ export default async function HomePage() {
 
   return (
     <main className="min-h-screen p-8 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Contenus issus de Contentful</h1>
+      <h1 className="text-3xl font-bold mb-6">Mon site avec Contentful</h1>
 
       {entries.length === 0 ? (
-        <p className="text-gray-500">Aucun contenu trouvé dans Contentful.</p>
+        <p className="text-gray-500">Aucun contenu trouvé pour l'instant.</p>
       ) : (
         <ul className="space-y-4">
           {entries.map((entry) => (
@@ -31,11 +26,6 @@ export default async function HomePage() {
               <h2 className="text-xl font-semibold">
                 {(entry.fields.title as string) || (entry.fields.name as string) || 'Sans titre'}
               </h2>
-              {entry.fields.description && (
-                <p className="mt-2 text-gray-600">
-                  {entry.fields.description as string}
-                </p>
-              )}
             </li>
           ))}
         </ul>
